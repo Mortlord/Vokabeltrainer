@@ -2090,10 +2090,12 @@ function renderFlashcard(dir) {
   }
 
   const v = sessionQueue[sessionIdx];
-  const front = (dir === 'de-vi') ? v.de : v.vi;
-  const back  = (dir === 'de-vi') ? v.vi : v.de;
-  const frontLang = (dir === 'de-vi') ? '🇩🇪 Deutsch' : '🇻🇳 Tiếng Việt';
-  const backLang  = (dir === 'de-vi') ? '🇻🇳 Tiếng Việt' : '🇩🇪 Deutsch';
+  // Pick random direction per card if 'both'
+  const useDir = (dir === 'both') ? (Math.random() > 0.5 ? 'vi-de' : 'de-vi') : dir;
+  const front = (useDir === 'de-vi') ? v.de : v.vi;
+  const back  = (useDir === 'de-vi') ? v.vi : v.de;
+  const frontLang = (useDir === 'de-vi') ? '🇩🇪 Deutsch → Vietnamesisch' : '🇻🇳 Tiếng Việt → Deutsch';
+  const backLang  = (useDir === 'de-vi') ? '🇻🇳 Tiếng Việt' : '🇩🇪 Deutsch';
   cardFlipped = false;
 
   const pct = Math.round(sessionIdx / sessionTotal * 100);
